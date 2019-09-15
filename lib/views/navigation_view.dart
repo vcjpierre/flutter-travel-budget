@@ -32,15 +32,19 @@ class _HomeState extends State<Home> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
+            tooltip: 'New Trip',
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => NewTripLocationView(trip: newTrip,)),
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NewTripLocationView(trip: newTrip,)
+                ),
               );
             },
           ),
           IconButton(
             icon: Icon(Icons.exit_to_app),
+            tooltip: 'Sign Out',
             onPressed: () async {
               try {
                 AuthService auth = Provider.of(context).auth;
