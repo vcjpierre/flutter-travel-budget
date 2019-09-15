@@ -3,7 +3,7 @@ class Place {
   double averageBudget;
 
   Place(
-      this.name,
-      this.averageBudget,
-      );
+    this.name,
+    this.averageBudget,
+  );
 }

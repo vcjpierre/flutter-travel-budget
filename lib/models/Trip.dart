@@ -5,14 +5,13 @@ class Trip {
   double budget;
   String travelType;
 
-
   Trip(
-      this.title,
-      this.startDate,
-      this.endDate,
-      this.budget,
-      this.travelType
-      );
+    this.title,
+    this.startDate,
+    this.endDate,
+    this.budget,
+    this.travelType
+  );
 
   Map<String, dynamic> toJson() => {
     'title': title,
