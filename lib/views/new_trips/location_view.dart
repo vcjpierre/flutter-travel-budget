@@ -111,7 +111,7 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
               child: ListView.builder(
                 itemCount: _placesList.length,
                 itemBuilder: (BuildContext context, int index) =>
-                    buildPlaceCard(context, index),
+                  buildPlaceCard(context, index),
               ),
             ),
           ],
@@ -151,7 +151,8 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
                           Row(
                             children: <Widget>[
                               Text(
-                                  "Average Budget \$${_placesList[index].averageBudget.toStringAsFixed(2)}"),
+                                "Average Budget \$${_placesList[index].averageBudget.toStringAsFixed(2)}"
+                              ),
                             ],
                           ),
                         ],
@@ -174,7 +175,8 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => NewTripDateView(trip: widget.trip)),
+                    builder: (context) => NewTripDateView(trip: widget.trip)
+                  ),
                 );
               },
             ),
@@ -184,14 +186,3 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
     );
   }
 }
-
-//RaisedButton(
-//child: Text("Continue"),
-//onPressed: () {
-//trip.title = _titleController.text;
-//Navigator.push(
-//context,
-//MaterialPageRoute(builder: (context) => NewTripDateView(trip: trip)),
-//);
-//},
-//),

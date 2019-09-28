@@ -6,8 +6,6 @@ import 'package:flutter_travel_budget/models/Trip.dart';
 import 'package:flutter_travel_budget/widgets/provider_widget.dart';
 import 'package:flutter_travel_budget/services/auth_service.dart';
 
-
-
 class Home extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -25,7 +23,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final newTrip = new Trip(null, null, null, null, null);
+    final newTrip = new Trip(null, null, null, null, null, null);
     return Scaffold(
       appBar: AppBar(
         title: Text("Travel Budget App"),
@@ -35,10 +33,10 @@ class _HomeState extends State<Home> {
             tooltip: 'New Trip',
             onPressed: () {
               Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => NewTripLocationView(trip: newTrip,)
-                ),
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NewTripLocationView(trip: newTrip,)
+                  ),
               );
             },
           ),
