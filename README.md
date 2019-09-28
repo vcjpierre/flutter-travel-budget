@@ -1,6 +1,5 @@
-# Flutter Travel Budget
-
-A new Flutter project.
+<h1 align="center">Flutter Travel Budget</h1>
+<p align="center">A new Flutter project.</p>
 
 ## Getting Started
 
