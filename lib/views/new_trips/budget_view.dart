@@ -29,12 +29,12 @@ class _NewTripBudgetViewState extends State<NewTripBudgetView> {
   @override
   void initState() {
     super.initState();
+    _budgetController.addListener(_setBudgetTotal);
     _transportationController.addListener(_setTotalBudget);
     _foodController.addListener(_setTotalBudget);
     _lodgingController.addListener(_setTotalBudget);
     _entertainmentController.addListener(_setTotalBudget);
   }
-
 
   _setTotalBudget() {
     var total = 0;
@@ -47,18 +47,31 @@ class _NewTripBudgetViewState extends State<NewTripBudgetView> {
     });
   }
 
+  _setBudgetTotal() {
+    setState(() {
+      _budgetTotal = int.parse(_budgetController.text);
+    });
+  }
+
 
   List<Widget> setBudgetFields(_budgetController) {
     List<Widget> fields = [];
 
     if (_budgetState == budgetType.simple) {
       _switchButtonText = "Build Budget";
-      fields.add(Text("Enter a Trip Budget"));
+      fields.add(Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Text("Enter a Trip Budget"),
+      ));
       fields.add(generateTextField(_budgetController, "Daily estimated budget"));
     } else {
-      // assumes complex budget
       _switchButtonText = "Simple Budget";
-      fields.add(Text("Enter How much you want to spend in each area"));
+      fields.add(
+        Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Text("Enter How much you want to spend in each area"),
+        )
+      );
       fields.add(generateTextField(_transportationController, "Daily Estimated Transportation Budget"));
       fields.add(generateTextField(_foodController, "Daily Estimated Food Budget"));
       fields.add(generateTextField(_lodgingController, "Daily Estimated Lodging Budget"));
@@ -66,29 +79,33 @@ class _NewTripBudgetViewState extends State<NewTripBudgetView> {
       fields.add(Text("Total: \$$_budgetTotal"));
     }
 
-    fields.add(FlatButton(
-      child: Text(
-        "Continue",
-        style: TextStyle(fontSize: 25, color: Colors.blue),
-      ),
-      onPressed: () async {
-        widget.trip.budget = _budgetTotal.toDouble();
-        widget.trip.budgetTypes = {
-          'transportation': (_transportationController.text == "") ? 0.0 : double.parse(_transportationController.text),
-          'food': (_foodController.text == "") ? 0.0 : double.parse(_foodController.text),
-          'lodging': (_lodgingController.text== "") ? 0.0 : double.parse(_lodgingController.text),
-          'entertainment': (_entertainmentController.text == "") ? 0.0 : double.parse(_entertainmentController.text),
-        };
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
+    fields.add(
+      FlatButton(
+        child: Text(
+          "Continue",
+          style: TextStyle(fontSize: 25, color: Colors.blue),
+        ),
+        onPressed: () async {
+          widget.trip.budget = _budgetTotal.toDouble();
+          widget.trip.budgetTypes = {
+            'transportation': (_transportationController.text == "") ? 0.0 : double.parse(_transportationController.text),
+            'food': (_foodController.text == "") ? 0.0 : double.parse(_foodController.text),
+            'lodging': (_lodgingController.text== "") ? 0.0 : double.parse(_lodgingController.text),
+            'entertainment': (_entertainmentController.text == "") ? 0.0 : double.parse(_entertainmentController.text),
+          };
+          Navigator.push(
+            context,
+            MaterialPageRoute(
               builder: (context) => NewTripSummaryView(trip: widget.trip)),
-        );
-      },
-    ));
-    fields.add(DividerWithText(dividerText: "or"));
-    fields.add(FlatButton(
+          );
+        },
+      )
+    );
+    fields.add(
+      DividerWithText(dividerText: "or")
+    );
+    fields.add(
+      FlatButton(
       child: Text(
         _switchButtonText,
         style: TextStyle(fontSize: 25, color: Colors.blue),
@@ -100,14 +117,16 @@ class _NewTripBudgetViewState extends State<NewTripBudgetView> {
               : budgetType.simple;
         });
       },
-    ));
-
+    )
+  );
     return fields;
   }
 
   @override
   Widget build(BuildContext context) {
     _budgetController.text = (_budgetController.text == "0") ? "" : _budgetTotal.toString();
+    _budgetController.selection = TextSelection.collapsed(offset: _budgetController.text.length);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Trip - Budget'),
