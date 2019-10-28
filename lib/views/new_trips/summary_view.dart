@@ -15,44 +15,48 @@ class NewTripSummaryView extends StatelessWidget {
     final tripTypes = trip.types();
     var tripKeys = tripTypes.keys.toList();
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Trip Summary'),
-        ),
-        body: Center(
+      appBar: AppBar(
+        title: Text('Trip Summary'),
+      ),
+      body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("Finish"),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text("Submit", style: TextStyle(fontSize: 20, color: Colors.green),),
+              ),
               Text("${trip.title}"),
               Text("${DateFormat('dd/MM/yyyy').format(trip.startDate).toString()} - ${DateFormat('dd/MM/yyyy').format(trip.endDate).toString()}"),
-              Text("${trip.budget}"),
+              Text("\$${trip.budget.toStringAsFixed(2)}"),
+
               Expanded(
                 child: GridView.count(
-                  crossAxisCount: 3,
-                  scrollDirection: Axis.vertical,
-                  primary: false,
-                  children: List.generate(tripTypes.length, (index) {
-                    return FlatButton(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          tripTypes[tripKeys[index]],
-                          Text(tripKeys[index]),
-                        ],
-                      ),
-                      onPressed: () async {
-                        trip.travelType = tripKeys[index];
-                        final uid = await Provider.of(context).auth.getCurrentUID();
-                        await db.collection("userData").document(uid).collection("trips").add(trip.toJson());
-                        Navigator.of(context).popUntil((route) => route.isFirst);
-                      },
-                    );
-                  }),
-                ),
+                crossAxisCount: 3,
+                scrollDirection: Axis.vertical,
+                primary: false,
+                children: List.generate(tripTypes.length, (index) {
+                  return FlatButton(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        tripTypes[tripKeys[index]],
+                        Text(tripKeys[index]),
+                      ],
+                    ),
+                    onPressed: () async {
+                      trip.travelType = tripKeys[index];
+                      final uid = await Provider.of(context).auth.getCurrentUID();
+                      await db.collection("userData").document(uid).collection("trips").add(trip.toJson());
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                    },
+                  );
+                }),
               ),
-            ],
-          )
-        )
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

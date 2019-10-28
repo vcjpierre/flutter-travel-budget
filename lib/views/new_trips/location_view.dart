@@ -7,6 +7,7 @@ import 'package:flutter_travel_budget/credentials.dart';
 import 'package:dio/dio.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'dart:async';
+import 'package:uuid/uuid.dart';
 
 class NewTripLocationView extends StatefulWidget {
   final Trip trip;
@@ -19,7 +20,9 @@ class NewTripLocationView extends StatefulWidget {
 
 class _NewTripLocationViewState extends State<NewTripLocationView> {
   TextEditingController _searchController = new TextEditingController();
-  Timer _throttle;
+//  Timer _throttle;
+  var uuid = new Uuid();
+  String _sessionToken;
 
   String _heading;
   List<Place> _placesList;
@@ -47,10 +50,16 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
   }
 
   _onSearchChanged() {
-    if (_throttle?.isActive ?? false) _throttle.cancel();
-    _throttle = Timer(const Duration(milliseconds: 500), () {
-      getLocationResults(_searchController.text);
-    });
+    if(_sessionToken == null) {
+      setState(() {
+        _sessionToken = uuid.v4();
+      });
+    }
+    getLocationResults(_searchController.text);
+    // if (_throttle?.isActive ?? false) _throttle.cancel();
+    //_throttle = Timer(const Duration(milliseconds: 500), () {
+    //  getLocationResults(_searchController.text);
+    // });
   }
 
   void getLocationResults(String input) async {
@@ -64,9 +73,10 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
     String baseURL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String type = '(regions)';
 
-    String request = '$baseURL?input=$input&key=$PLACES_API_KEY&type=$type';
+    String request = '$baseURL?input=$input&key=$PLACES_API_KEY&type=$type&sessiontoken=$_sessionToken';
     Response response = await Dio().get(request);
 
+    print(request);
     final predictions = response.data['predictions'];
 
     List<Place> _displayResults = [];
@@ -143,8 +153,9 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
                             children: <Widget>[
                               Flexible(
                                 child: AutoSizeText(_placesList[index].name,
-                                    maxLines: 3,
-                                    style: TextStyle(fontSize: 25.0)),
+                                  maxLines: 3,
+                                  style: TextStyle(fontSize: 25.0)
+                                ),
                               ),
                             ],
                           ),
@@ -171,12 +182,13 @@ class _NewTripLocationViewState extends State<NewTripLocationView> {
               ),
               onTap: () {
                 widget.trip.title = _placesList[index].name;
-                // that would need to be added to the Trip object
+                setState(() {
+                  _sessionToken = null;
+                });
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => NewTripDateView(trip: widget.trip)
-                  ),
+                    builder: (context) => NewTripDateView(trip: widget.trip)),
                 );
               },
             ),
