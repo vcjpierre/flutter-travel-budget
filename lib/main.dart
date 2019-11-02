@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.green,
         ),
         home: HomeController(),
+        debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           '/home': (BuildContext context) => HomeController(),
           '/signUp': (BuildContext context) => SignUpView(authFormType: AuthFormType.signUp),
