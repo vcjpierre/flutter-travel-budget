@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return Provider(
       auth: AuthService(),
       child: MaterialApp(
-        title: "Travel Budget App",
+        title: "Travel Budget",
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
