@@ -8,7 +8,7 @@ class Trip {
   double budget;
   Map budgetTypes;
   String travelType;
-
+  String photoReference;
 
   Trip(
     this.title,
@@ -27,6 +27,7 @@ class Trip {
     'budget': budget,
     'budgetTypes': budgetTypes,
     'travelType': travelType,
+    'photoReference': photoReference,
   };
 
   // creating a Trip object from a firebase snapshot

@@ -4,6 +4,7 @@ import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 import 'package:intl/intl.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'dart:async';
+import 'package:flutter_travel_budget/credentials.dart';
 
 import 'budget_view.dart';
 
@@ -35,6 +36,14 @@ class _NewTripDateViewState extends State<NewTripDateView> {
     }
   }
 
+  Image getImage(photoReference) {
+    final baseUrl = "https://maps.googleapis.com/maps/api/place/photo";
+    final maxWidth = "400";
+    final maxHeight = "200";
+    final url = "$baseUrl?maxwidth=$maxWidth&maxheight=$maxHeight&photoreference=$photoReference&key=$PLACES_API_KEY";
+    return Image.network(url);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +54,8 @@ class _NewTripDateViewState extends State<NewTripDateView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            getImage(widget.trip.photoReference),
             buildSelectedDetails(context, widget.trip),
-
             Spacer(),
             Text("Location ${widget.trip.title}"),
             RaisedButton(
@@ -59,9 +68,11 @@ class _NewTripDateViewState extends State<NewTripDateView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Text(
-                    "Start Date: ${DateFormat('MM/dd/yyyy').format(_startDate).toString()}"),
+                  "Start Date: ${DateFormat('MM/dd/yyyy').format(_startDate).toString()}"
+                ),
                 Text(
-                    "End Date: ${DateFormat('MM/dd/yyyy').format(_endDate).toString()}"),
+                  "End Date: ${DateFormat('MM/dd/yyyy').format(_endDate).toString()}"
+                ),
               ],
             ),
             RaisedButton(
@@ -72,8 +83,9 @@ class _NewTripDateViewState extends State<NewTripDateView> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          NewTripBudgetView(trip: widget.trip)),
+                    builder: (context) =>
+                      NewTripBudgetView(trip: widget.trip)
+                  ),
                 );
               },
             ),
@@ -108,8 +120,9 @@ class _NewTripDateViewState extends State<NewTripDateView> {
                             children: <Widget>[
                               Flexible(
                                 child: AutoSizeText(trip.title, 
-                                    maxLines: 3,
-                                    style: TextStyle(fontSize: 25.0)),
+                                  maxLines: 3,
+                                  style: TextStyle(fontSize: 25.0)
+                                ),
                               ),
                             ],
                           ),
@@ -137,14 +150,6 @@ class _NewTripDateViewState extends State<NewTripDateView> {
                       ),
                     ),
                   ),
-                  Column(
-                    children: <Widget>[
-                      Placeholder(
-                        fallbackHeight: 100,
-                        fallbackWidth: 100,
-                      ),
-                    ],
-                  )
                 ],
               ),
             ),
