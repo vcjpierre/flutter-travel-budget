@@ -49,7 +49,7 @@ class _NewTripBudgetViewState extends State<NewTripBudgetView> {
 
   _setBudgetTotal() {
     setState(() {
-      _budgetTotal = int.parse(_budgetController.text);
+      _budgetTotal = (_budgetController.text == "") ? 0 : int.parse(_budgetController.text);
     });
   }
 
@@ -65,6 +65,7 @@ class _NewTripBudgetViewState extends State<NewTripBudgetView> {
       ));
       fields.add(generateTextField(_budgetController, "Daily estimated budget"));
     } else {
+      // assumes complex budget
       _switchButtonText = "Simple Budget";
       fields.add(
         Padding(
@@ -106,25 +107,25 @@ class _NewTripBudgetViewState extends State<NewTripBudgetView> {
     );
     fields.add(
       FlatButton(
-      child: Text(
-        _switchButtonText,
-        style: TextStyle(fontSize: 25, color: Colors.blue),
-      ),
-      onPressed: () {
-        setState(() {
-          _budgetState = (_budgetState == budgetType.simple)
-              ? budgetType.complex
-              : budgetType.simple;
-        });
-      },
-    )
-  );
+        child: Text(
+          _switchButtonText,
+          style: TextStyle(fontSize: 25, color: Colors.blue),
+        ),
+        onPressed: () {
+          setState(() {
+            _budgetState = (_budgetState == budgetType.simple)
+                ? budgetType.complex
+                : budgetType.simple;
+          });
+        },
+      )
+    );
     return fields;
   }
 
   @override
   Widget build(BuildContext context) {
-    _budgetController.text = (_budgetController.text == "0") ? "" : _budgetTotal.toString();
+    _budgetController.text = (_budgetController.text == "") ? "" : _budgetTotal.toString();
     _budgetController.selection = TextSelection.collapsed(offset: _budgetController.text.length);
 
     return Scaffold(

@@ -36,14 +36,6 @@ class _NewTripDateViewState extends State<NewTripDateView> {
     }
   }
 
-  Image getImage(photoReference) {
-    final baseUrl = "https://maps.googleapis.com/maps/api/place/photo";
-    final maxWidth = "1000";
-    final maxHeight = "200";
-    final url = "$baseUrl?maxwidth=$maxWidth&photoreference=$photoReference&key=$PLACES_API_KEY";
-    return Image.network(url, fit: BoxFit.cover);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +47,7 @@ class _NewTripDateViewState extends State<NewTripDateView> {
               backgroundColor: Colors.green,
               expandedHeight: 350.0,
               flexibleSpace: FlexibleSpaceBar(
-                background: getImage(widget.trip.photoReference),
+                background: widget.trip.getLocationImage(),
               ),
             ),
             SliverFixedExtentList(
@@ -182,7 +174,7 @@ class _NewTripDateViewState extends State<NewTripDateView> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(
-                        top: 16.0, left: 16.0, bottom: 16.0),
+                          top: 16.0, left: 16.0, bottom: 16.0),
                       child: Column(
                         children: <Widget>[
                           Row(
