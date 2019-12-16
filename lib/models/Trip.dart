@@ -10,6 +10,8 @@ class Trip {
   Map budgetTypes;
   String travelType;
   String photoReference;
+  String notes;
+  String documentId;
 
   Trip(
       this.title,
@@ -20,7 +22,7 @@ class Trip {
       this.travelType
       );
 
-  // formatting for upload to Firbase
+  // formatting for upload to Firbase when creating the trip
   Map<String, dynamic> toJson() => {
     'title': title,
     'startDate': startDate,
@@ -39,7 +41,9 @@ class Trip {
       budget = snapshot['budget'],
       budgetTypes = snapshot['budgetTypes'],
       travelType = snapshot['travelType'],
-      photoReference = snapshot['photoReference'];
+      photoReference = snapshot['photoReference'],
+      notes = snapshot['notes'],
+      documentId = snapshot.documentID;
 
   Map<String, Icon> types() => {
     "car": Icon(Icons.directions_car, size: 50),
@@ -58,4 +62,3 @@ class Trip {
     return Image.network(url, fit: BoxFit.cover);
   }
 }
-
