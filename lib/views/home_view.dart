@@ -16,9 +16,9 @@ class HomeView extends StatelessWidget {
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const Text("Loading...");
             return new ListView.builder(
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    buildTripCard(context, snapshot.data.documents[index])
+              itemCount: snapshot.data.documents.length,
+              itemBuilder: (BuildContext context, int index) =>
+                buildTripCard(context, snapshot.data.documents[index])
             );
           }
       ),
@@ -28,11 +28,11 @@ class HomeView extends StatelessWidget {
   Stream<QuerySnapshot> getUsersTripsStreamSnapshots(
       BuildContext context) async* {
     final uid = await Provider
-        .of(context)
-        .auth
-        .getCurrentUID();
+      .of(context)
+      .auth
+      .getCurrentUID();
     yield* Firestore.instance.collection('userData').document(uid).collection(
-        'trips').snapshots();
+      'trips').snapshots();
   }
 
   Widget buildTripCard(BuildContext context, DocumentSnapshot document) {
@@ -57,10 +57,10 @@ class HomeView extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 4.0, bottom: 80.0),
                   child: Row(children: <Widget>[
                     Text(
-                        "${DateFormat('dd/MM/yyyy')
-                            .format(trip.startDate)
-                            .toString()} - ${DateFormat('dd/MM/yyyy').format(
-                            trip.endDate).toString()}"),
+                      "${DateFormat('dd/MM/yyyy')
+                        .format(trip.startDate)
+                        .toString()} - ${DateFormat('dd/MM/yyyy').format(
+                        trip.endDate).toString()}"),
                     Spacer(),
                   ]),
                 ),
@@ -69,11 +69,11 @@ class HomeView extends StatelessWidget {
                   child: Row(
                     children: <Widget>[
                       Text("\$${(trip.budget == null) ? "n/a" : trip.budget
-                          .toStringAsFixed(2)}",
+                        .toStringAsFixed(2)}",
                         style: new TextStyle(fontSize: 35.0),),
                       Spacer(),
                       (tripType.containsKey(trip.travelType)) ? tripType[trip
-                          .travelType] : tripType["other"],
+                        .travelType] : tripType["other"],
                     ],
                   ),
                 )
@@ -84,7 +84,8 @@ class HomeView extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => DetailTripView(trip: trip)),
+                builder: (context) => DetailTripView(trip: trip)
+              ),
             );
           },
         ),
