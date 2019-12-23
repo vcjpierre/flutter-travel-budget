@@ -25,14 +25,16 @@ dependencies:
   cupertino_icons: ^0.1.2
   intl: ^0.15.8
   cloud_firestore: ^0.12.9
-  firebase_auth: ^0.14.0
+  firebase_auth: ^0.15.3
   google_sign_in: ^4.0.4
+  apple_sign_in: ^0.1.0
   date_range_picker: ^1.0.3
   auto_size_text: ^2.0.2
   flutter_spinkit: ^3.1.0
   flutter_auth_buttons: ^0.5.0
   dio: ^2.1.13
   uuid: 2.0.1
+  device_info: ^0.4.1+4
 
 dev_dependencies:
   flutter_test:
