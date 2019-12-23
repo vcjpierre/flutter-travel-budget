@@ -1,9 +1,12 @@
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_travel_budget/services/auth_service.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_travel_budget/widgets/provider_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'dart:io';
+import 'package:device_info/device_info.dart';
 
 final primaryColor = const Color(0xFF75A2EA);
 
@@ -21,6 +24,27 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   AuthFormType authFormType;
+  bool _showAppleSignIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _useAppleSignIn();
+  }
+
+  _useAppleSignIn() async {
+    if (Platform.isIOS) {
+      var deviceInfo = await DeviceInfoPlugin().iosInfo;
+      var version = deviceInfo.systemVersion;
+
+      if (double.parse(version) >= 13) {
+        setState(() {
+          _showAppleSignIn = true;
+        });
+      }
+    }
+  }
 
   _SignUpViewState({this.authFormType});
 
@@ -257,9 +281,16 @@ class _SignUpViewState extends State<SignUpView> {
       fillColor: Colors.white,
       focusColor: Colors.white,
       enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 0.0)),
+        borderSide: BorderSide(
+          color: Colors.white,
+          width: 0.0)
+        ),
       contentPadding:
-          const EdgeInsets.only(left: 14.0, bottom: 10.0, top: 10.0),
+        const EdgeInsets.only(
+          left: 14.0, 
+          bottom: 10.0, 
+          top: 10.0
+        ),
     );
   }
 
@@ -340,6 +371,7 @@ class _SignUpViewState extends State<SignUpView> {
     final _auth = Provider.of(context).auth;
     return Visibility(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Divider(
             color: Colors.white,
@@ -362,10 +394,26 @@ class _SignUpViewState extends State<SignUpView> {
                 });
               }
             },
-          )
+          ),
+          SizedBox(height: 10),
+          buildAppleSignIn(_auth),
         ],
       ),
       visible: visible,
     );
+  }
+
+  Widget buildAppleSignIn(_auth) {
+    if (authFormType != AuthFormType.convert && _showAppleSignIn == true) {
+      return AppleSignInButton(
+        onPressed: () async {
+          await _auth.signInWithApple();
+          Navigator.of(context).pushReplacementNamed('/home');
+        },
+        style: ButtonStyle.black,
+      );
+    } else {
+      return Container();
+    }
   }
 }
