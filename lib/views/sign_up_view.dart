@@ -377,6 +377,8 @@ class _SignUpViewState extends State<SignUpView> {
             color: Colors.white,
           ),
           SizedBox(height: 10),
+          buildAppleSignIn(_auth),
+          SizedBox(height: 10),
           GoogleSignInButton(
             onPressed: () async {
               try {
@@ -395,8 +397,6 @@ class _SignUpViewState extends State<SignUpView> {
               }
             },
           ),
-          SizedBox(height: 10),
-          buildAppleSignIn(_auth),
         ],
       ),
       visible: visible,

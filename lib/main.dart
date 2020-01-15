@@ -4,6 +4,7 @@ import 'package:flutter_travel_budget/views/first_view.dart';
 import 'package:flutter_travel_budget/views/sign_up_view.dart';
 import 'package:flutter_travel_budget/widgets/provider_widget.dart';
 import 'package:flutter_travel_budget/services/auth_service.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +16,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: "Travel Budget",
         theme: ThemeData(
-          primarySwatch: Colors.green,
+          primarySwatch: Colors.blue,
+
+          textTheme: TextTheme(
+            body1: GoogleFonts.bitter(fontSize: 14.0)
+          )
         ),
         home: HomeController(),
         debugShowCheckedModeBanner: false,
@@ -47,4 +52,3 @@ class HomeController extends StatelessWidget {
     );
   }
 }
-

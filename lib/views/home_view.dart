@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_travel_budget/widgets/provider_widget.dart';
 import 'package:flutter_travel_budget/models/Trip.dart';
 import 'detail_trip_view.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeView extends StatelessWidget {
 
@@ -49,7 +50,10 @@ class HomeView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
                   child: Row(children: <Widget>[
-                    Text(trip.title, style: new TextStyle(fontSize: 30.0),),
+                    Text(
+                      trip.title, 
+                      style: GoogleFonts.seymourOne(fontSize: 20.0)
+                    ),
                     Spacer(),
                   ]),
                 ),
