@@ -182,7 +182,9 @@ class _NewTripDateViewState extends State<NewTripDateView> {
                               Flexible(
                                 child: AutoSizeText(trip.title, 
                                   maxLines: 3,
-                                  style: TextStyle(fontSize: 25.0)
+                                  style: TextStyle(
+                                    fontSize: 25.0
+                                  ),
                                 ),
                               ),
                             ],

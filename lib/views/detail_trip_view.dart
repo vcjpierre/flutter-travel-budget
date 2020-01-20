@@ -68,7 +68,10 @@ class DetailTripView extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   trip.title,
-                  style: TextStyle(fontSize: 30, color: Colors.green[900]),
+                  style: TextStyle(
+                    fontSize: 15, 
+                    color: Colors.green[900]
+                  ),
                 ),
               ),
             ],
@@ -103,7 +106,7 @@ class DetailTripView extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 15, 
                     color: Colors.white
-                  )
+                  ),
                 ),
               ],
             ),
@@ -130,16 +133,18 @@ class DetailTripView extends StatelessWidget {
                   color: Colors.blue[900],
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 20),
+                      vertical: 10.0, horizontal: 20
+                    ),
                     child: Text(
                       "\$${trip.budget.floor() * getTotalTripDays()} total",
                       style: TextStyle(
-                        color: Colors.white, fontSize: 20
+                        color: Colors.white, 
+                        fontSize: 20
                       ),
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           )
         ],
@@ -162,7 +167,10 @@ class DetailTripView extends StatelessWidget {
                 child: Row(
                   children: <Widget>[
                     Text("Trip Notes",
-                      style: TextStyle(fontSize: 24, color: Colors.white)
+                      style: TextStyle(
+                        fontSize: 24, 
+                        color: Colors.white
+                      )
                     ),
                   ],
                 ),
@@ -180,7 +188,7 @@ class DetailTripView extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => EditNotesView(trip: trip)
-              )
+              ),
             );
           },
         ),
@@ -195,7 +203,12 @@ class DetailTripView extends StatelessWidget {
           padding: const EdgeInsets.only(right: 8.0),
           child: Icon(Icons.add_circle_outline, color: Colors.grey[300]),
         ),
-        Text("Click To Add Notes", style: TextStyle(color: Colors.grey[300])),
+        Text(
+          "Click To Add Notes", 
+          style: TextStyle(
+            color: Colors.grey[300]
+          )
+        ),
       ];
     } else {
       return [Text(trip.notes, style: TextStyle(color: Colors.grey[300]))];

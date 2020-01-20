@@ -52,7 +52,7 @@ class HomeView extends StatelessWidget {
                   child: Row(children: <Widget>[
                     Text(
                       trip.title, 
-                      style: GoogleFonts.seymourOne(fontSize: 20.0)
+                      style: GoogleFonts.seymourOne(fontSize: 14.0)
                     ),
                     Spacer(),
                   ]),
@@ -74,7 +74,10 @@ class HomeView extends StatelessWidget {
                     children: <Widget>[
                       Text("\$${(trip.budget == null) ? "n/a" : trip.budget
                         .toStringAsFixed(2)}",
-                        style: new TextStyle(fontSize: 35.0),),
+                        style: new TextStyle(
+                          fontSize: 35.0
+                        ),
+                      ),
                       Spacer(),
                       (tripType.containsKey(trip.travelType)) ? tripType[trip
                         .travelType] : tripType["other"],
