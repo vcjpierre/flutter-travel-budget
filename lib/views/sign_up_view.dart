@@ -127,22 +127,23 @@ class _SignUpViewState extends State<SignUpView> {
     if (authFormType == AuthFormType.anonymous) {
       submit();
       return Scaffold(
-        backgroundColor: primaryColor,
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SpinKitDoubleBounce(
-                color: Colors.white,
-              ),
-              Text(
-                "Loading",
-                style: TextStyle(color: Colors.white),
-              ),
-            ],
-          ),
-        )
-      );
+          backgroundColor: primaryColor,
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SpinKitDoubleBounce(
+                  color: Colors.white,
+                ),
+                Text(
+                  "Loading",
+                  style: TextStyle(
+                    color: Colors.white
+                  ),
+                ),
+              ],
+            ),
+          ));
     } else {
       return Scaffold(
         body: SingleChildScrollView(
@@ -260,15 +261,18 @@ class _SignUpViewState extends State<SignUpView> {
       ),
     );
     textFields.add(SizedBox(height: 20));
-    textFields.add(
-      TextFormField(
-        validator: PasswordValidator.validate,
-        style: TextStyle(fontSize: 22.0),
-        decoration: buildSignUpInputDecoration("Password"),
-        obscureText: true,
-        onSaved: (value) => _password = value,
-      ),
-    );
+
+    if(authFormType != AuthFormType.reset) {
+      textFields.add(
+        TextFormField(
+          validator: PasswordValidator.validate,
+          style: TextStyle(fontSize: 22.0),
+          decoration: buildSignUpInputDecoration("Password"),
+          obscureText: true,
+          onSaved: (value) => _password = value,
+        ),
+      );
+    }
     textFields.add(SizedBox(height: 20));
 
     return textFields;
@@ -282,15 +286,12 @@ class _SignUpViewState extends State<SignUpView> {
       focusColor: Colors.white,
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: Colors.white,
-          width: 0.0)
-        ),
+          color: Colors.white, 
+          width: 0.0
+        )
+      ),
       contentPadding:
-        const EdgeInsets.only(
-          left: 14.0, 
-          bottom: 10.0, 
-          top: 10.0
-        ),
+        const EdgeInsets.only(left: 14.0, bottom: 10.0, top: 10.0),
     );
   }
 
@@ -324,19 +325,25 @@ class _SignUpViewState extends State<SignUpView> {
         width: MediaQuery.of(context).size.width * 0.7,
         child: RaisedButton(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0)
+            ),
           color: Colors.white,
           textColor: primaryColor,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
               _submitButtonText,
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300),
+              style: TextStyle(
+                fontSize: 20.0, 
+                fontWeight: FontWeight.w300
+              ),
             ),
           ),
           onPressed: submit,
         ),
       ),
+      showForgotPassword(_showForgotPassword),
       FlatButton(
         child: Text(
           _switchButtonText,

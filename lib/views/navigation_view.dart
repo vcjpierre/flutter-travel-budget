@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+  import 'package:flutter/material.dart';
 import 'package:flutter_travel_budget/pages.dart';
 import 'package:flutter_travel_budget/views/home_view.dart';
 import 'package:flutter_travel_budget/views/new_trips/location_view.dart';
+import 'profile_view.dart';
 import 'package:flutter_travel_budget/models/Trip.dart';
 import 'package:flutter_travel_budget/widgets/provider_widget.dart';
 import 'package:flutter_travel_budget/services/auth_service.dart';
@@ -18,7 +19,7 @@ class _HomeState extends State<Home> {
   final List<Widget> _children = [
     HomeView(),
     ExplorePage(),
-    PastTripsPage(),
+    ProfileView(),
   ];
 
   @override
@@ -30,56 +31,37 @@ class _HomeState extends State<Home> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
-            tooltip: 'New Trip',
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NewTripLocationView(trip: newTrip,)
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NewTripLocationView(
+                    trip: newTrip
                   ),
+                ),
               );
             },
           ),
-          IconButton(
-            icon: Icon(Icons.exit_to_app),
-            tooltip: 'Sign Out',
-            onPressed: () async {
-              try {
-                AuthService auth = Provider.of(context).auth;
-                await auth.signOut();
-                print("Signed Out!");
-              } catch (e) {
-                print (e);
-              }
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.account_circle),
-            onPressed: () {
-              Navigator.of(context).pushNamed('/convertUser');
-            },
-          )
-          
         ],
       ),
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-          onTap: onTabTapped,
-          currentIndex: _currentIndex,
-          items: [
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.home),
-              title: new Text("Home"),
-            ),
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.explore),
-              title: new Text("Explore"),
-            ),
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.history),
-              title: new Text("Past Trips"),
-            ),
-          ]
+        onTap: onTabTapped,
+        currentIndex: _currentIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.home),
+            title: new Text("Home"),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.explore),
+            title: new Text("Explore"),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.account_circle),
+            title: new Text("Profile"),
+          ),
+        ]
       ),
     );
   }
