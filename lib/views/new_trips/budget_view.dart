@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_travel_budget/models/Trip.dart';
 import 'package:flutter_travel_budget/widgets/divider_with_text_widget.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_travel_budget/widgets/money_text_field.dart';
 import 'summary_view.dart';
 
 enum budgetType { simple, complex }
@@ -53,7 +53,6 @@ class _NewTripBudgetViewState extends State<NewTripBudgetView> {
     });
   }
 
-
   List<Widget> setBudgetFields(_budgetController) {
     List<Widget> fields = [];
 
@@ -63,20 +62,17 @@ class _NewTripBudgetViewState extends State<NewTripBudgetView> {
         padding: const EdgeInsets.all(12.0),
         child: Text("Enter a Trip Budget"),
       ));
-      fields.add(generateTextField(_budgetController, "Daily estimated budget"));
+      fields.add(MoneyTextField(controller: _budgetController, helperText: "Daily estimated budget"));
     } else {
-      // assumes complex budget
       _switchButtonText = "Simple Budget";
-      fields.add(
-        Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Text("Enter How much you want to spend in each area"),
-        )
-      );
-      fields.add(generateTextField(_transportationController, "Daily Estimated Transportation Budget"));
-      fields.add(generateTextField(_foodController, "Daily Estimated Food Budget"));
-      fields.add(generateTextField(_lodgingController, "Daily Estimated Lodging Budget"));
-      fields.add(generateTextField(_entertainmentController, "Daily Estimated Entertainment Budget"));
+      fields.add(Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Text("Enter How much you want to spend in each area"),
+      ));
+      fields.add(MoneyTextField(controller: _transportationController, helperText: "Daily Estimated Transportation Budget"));
+      fields.add(MoneyTextField(controller: _foodController, helperText: "Daily Estimated Food Budget"));
+      fields.add(MoneyTextField(controller: _lodgingController, helperText: "Daily Estimated Lodging Budget"));
+      fields.add(MoneyTextField(controller: _entertainmentController, helperText: "Daily Estimated Entertainment Budget"));
       fields.add(Text("Total: \$$_budgetTotal"));
     }
 
@@ -94,17 +90,17 @@ class _NewTripBudgetViewState extends State<NewTripBudgetView> {
             'lodging': (_lodgingController.text== "") ? 0.0 : double.parse(_lodgingController.text),
             'entertainment': (_entertainmentController.text == "") ? 0.0 : double.parse(_entertainmentController.text),
           };
+
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NewTripSummaryView(trip: widget.trip)),
+              builder: (context) => NewTripSummaryView(trip: widget.trip)
+            ),
           );
         },
-      )
+      ),
     );
-    fields.add(
-      DividerWithText(dividerText: "or")
-    );
+    fields.add(DividerWithText(dividerText: "or"));
     fields.add(
       FlatButton(
         child: Text(
@@ -114,12 +110,13 @@ class _NewTripBudgetViewState extends State<NewTripBudgetView> {
         onPressed: () {
           setState(() {
             _budgetState = (_budgetState == budgetType.simple)
-                ? budgetType.complex
-                : budgetType.simple;
+              ? budgetType.complex
+              : budgetType.simple;
           });
         },
       )
     );
+
     return fields;
   }
 
@@ -141,25 +138,5 @@ class _NewTripBudgetViewState extends State<NewTripBudgetView> {
         ),
       ),
     );
-  }
-
-  Widget generateTextField(controller, helperText) {
-    Widget textField = Padding(
-      padding: const EdgeInsets.all(30.0),
-      child: TextField(
-        controller: controller,
-        maxLines: 1,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.attach_money),
-          helperText: helperText,
-        ),
-        keyboardType: TextInputType.numberWithOptions(decimal: false),
-        inputFormatters: [
-          WhitelistingTextInputFormatter.digitsOnly,
-        ],
-        autofocus: true,
-      ),
-    );
-    return textField;
   }
 }
