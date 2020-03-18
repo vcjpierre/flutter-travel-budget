@@ -8,14 +8,37 @@ import 'package:flutter_travel_budget/widgets/calculator_widget.dart';
 import 'detail_trip_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomeView extends StatelessWidget {
+
+class HomeView extends StatefulWidget {
+
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  Future _nextTrip;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _nextTrip = _getNextTrip();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: <Widget>[
-          CalculatorWidget(),
+          FutureBuilder(
+            future: _nextTrip,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return CalculatorWidget(trip: snapshot.data);
+              } else {
+                return Text("Loading...");
+              }
+            },
+          ),
           Expanded(
             child: StreamBuilder(
               stream: getUsersTripsStreamSnapshots(context),
@@ -41,7 +64,18 @@ class HomeView extends StatelessWidget {
       .auth
       .getCurrentUID();
     yield* Firestore.instance.collection('userData').document(uid).collection(
-      'trips').snapshots();
+      'trips').orderBy('startDate').snapshots();
+  }
+
+  _getNextTrip() async {
+    final uid = await Provider.of(context).auth.getCurrentUID();
+    var snapshot = await Firestore.instance.collection('userData')
+        .document(uid)
+        .collection('trips')
+        .orderBy('startDate')
+        .limit(1)
+        .getDocuments();
+    return Trip.fromSnapshot(snapshot.documents.first);
   }
 
   Widget buildTripCard(BuildContext context, DocumentSnapshot document) {
@@ -69,10 +103,11 @@ class HomeView extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 4.0, bottom: 80.0),
                   child: Row(children: <Widget>[
                     Text(
-                      "${DateFormat('dd/MM/yyyy')
+                      "${DateFormat('MM/dd/yyyy')
                         .format(trip.startDate)
-                        .toString()} - ${DateFormat('dd/MM/yyyy').format(
-                        trip.endDate).toString()}"),
+                       .toString()} - ${DateFormat('MM/dd/yyyy').format(
+                        trip.endDate).toString()}"
+                    ),
                     Spacer(),
                   ]),
                 ),
