@@ -1,11 +1,9 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_travel_budget/pages.dart';
 import 'package:flutter_travel_budget/views/home_view.dart';
 import 'package:flutter_travel_budget/views/new_trips/location_view.dart';
 import 'profile_view.dart';
 import 'package:flutter_travel_budget/models/Trip.dart';
-import 'package:flutter_travel_budget/widgets/provider_widget.dart';
-import 'package:flutter_travel_budget/services/auth_service.dart';
 
 class Home extends StatefulWidget {
   @override

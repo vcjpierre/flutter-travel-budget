@@ -24,7 +24,7 @@ class MoneyTextField extends StatelessWidget {
         inputFormatters: [
           WhitelistingTextInputFormatter.digitsOnly,
         ],
-        autofocus: true,
+        autofocus: false,
       ),
     );
   }
