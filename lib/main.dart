@@ -5,8 +5,14 @@ import 'package:flutter_travel_budget/views/sign_up_view.dart';
 import 'package:flutter_travel_budget/widgets/provider_widget.dart';
 import 'package:flutter_travel_budget/services/auth_service.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_admob/firebase_admob.dart';
+import 'package:flutter_travel_budget/services/admob_service.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  FirebaseAdMob.instance.initialize(appId: AdMobService().getAdMobAppId());
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -17,10 +23,11 @@ class MyApp extends StatelessWidget {
         title: "Travel Budget",
         theme: ThemeData(
           primarySwatch: Colors.blue,
-
           textTheme: TextTheme(
-            body1: GoogleFonts.bitter(fontSize: 14.0)
-          )
+            body1: GoogleFonts.bitter(
+              fontSize: 14.0
+            ),
+          ),
         ),
         home: HomeController(),
         debugShowCheckedModeBanner: false,
