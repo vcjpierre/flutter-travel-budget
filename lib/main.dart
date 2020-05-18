@@ -7,6 +7,7 @@ import 'package:flutter_travel_budget/services/auth_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter_travel_budget/services/admob_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider(
       auth: AuthService(),
+      db: Firestore.instance,
       child: MaterialApp(
         title: "Travel Budget",
         theme: ThemeData(
