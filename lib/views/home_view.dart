@@ -188,7 +188,7 @@ class _HomeViewState extends State<HomeView> {
                   "Create Your First Trip",
                   style: GoogleFonts.acme(
                     fontSize: 35.0, 
-                    color: Colors.white
+                    color: Provider.of(context).colors.text1
                   ),
                 ),
                 RaisedButton(

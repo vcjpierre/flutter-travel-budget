@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter_travel_budget/services/admob_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_travel_budget/services/custom_colors.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,20 +16,53 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  var colors = CustomColors(WidgetsBinding.instance.window.platformBrightness);
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    setState(() {
+      colors = CustomColors(WidgetsBinding.instance.window.platformBrightness);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Provider(
       auth: AuthService(),
       db: Firestore.instance,
+      colors: colors,
       child: MaterialApp(
         title: "Travel Budget",
         theme: ThemeData(
+          brightness: Brightness.light,
           primarySwatch: Colors.blue,
           textTheme: TextTheme(
             body1: GoogleFonts.bitter(
               fontSize: 14.0
             ),
+          ),
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          primarySwatch: Colors.blue,
+          textTheme: TextTheme(
+            body1: GoogleFonts.bitter(fontSize: 14.0)
           ),
         ),
         home: HomeController(),
