@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           brightness: Brightness.light,
           primarySwatch: Colors.blue,
           textTheme: TextTheme(
-            body1: GoogleFonts.bitter(
+            bodyText1: GoogleFonts.bitter(
               fontSize: 14.0
             ),
           ),
@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           brightness: Brightness.dark,
           primarySwatch: Colors.blue,
           textTheme: TextTheme(
-            body1: GoogleFonts.bitter(fontSize: 14.0)
+            bodyText1: GoogleFonts.bitter(fontSize: 14.0)
           ),
         ),
         home: HomeController(),
