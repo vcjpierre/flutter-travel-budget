@@ -63,27 +63,27 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ),
         FutureBuilder(
-            future: _getProfileData(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                _userCountryController.text = user.homeCountry;
-                _isAdmin = user.admin ?? false;
-              }
-              return Container(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Home Country: ${_userCountryController.text}",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                    adminFeature(),
-                  ],
-                ),
-              );
+          future: _getProfileData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              _userCountryController.text = user.homeCountry;
+              _isAdmin = user.admin ?? false;
             }
+            return Container(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Home Country: ${_userCountryController.text}",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  adminFeature(),
+                ],
+              ),
+            );
+          }
         ),
         showSignOut(context, authData.isAnonymous),
         RaisedButton(
@@ -103,8 +103,8 @@ class _ProfileViewState extends State<ProfileView> {
         .collection('userData')
         .document(uid)
         .get().then((result) {
-      user.homeCountry = result.data['homeCountry'];
-      user.admin = result.data['admin'];
+          user.homeCountry = result.data['homeCountry'];
+          user.admin = result.data['admin'];
     });
   }
 
@@ -119,9 +119,9 @@ class _ProfileViewState extends State<ProfileView> {
     } else {
       return RaisedButton(
         child: Text("Sign Out"),
-        onPressed: () async {
+        onPressed: () {
           try {
-            await Provider.of(context).auth.signOut();
+            Provider.of(context).auth.signOut();
           } catch (e) {
             print(e);
           }
@@ -190,7 +190,7 @@ class _ProfileViewState extends State<ProfileView> {
                           _userCountryController.text = user.homeCountry;
                         });
                         final uid =
-                        await Provider.of(context).auth.getCurrentUID();
+                            await Provider.of(context).auth.getCurrentUID();
                         await Provider.of(context)
                             .db
                             .collection('userData')
