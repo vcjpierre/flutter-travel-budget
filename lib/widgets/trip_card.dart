@@ -15,13 +15,15 @@ Widget buildTripCard(BuildContext context, DocumentSnapshot document) {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            children: <Widget>[
+            children: <Widget>[              
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
                 child: Row(children: <Widget>[
-                  Text(
-                    trip.title,
-                    style: GoogleFonts.seymourOne(fontSize: 20.0),
+                  Expanded(
+                    child: Text(
+                      trip.title,
+                      style: GoogleFonts.seymourOne(fontSize: 20.0),
+                    ),
                   ),
                   Spacer(),
                 ]),
