@@ -7,7 +7,7 @@ import 'package:flutter_travel_budget/services/admob_service.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 
 class NewTripSummaryView extends StatelessWidget {
-  final db = Firestore.instance;
+  final db = FirebaseFirestore.instance;
   final Trip trip;
   final ams = AdMobService();
 
@@ -26,24 +26,24 @@ class NewTripSummaryView extends StatelessWidget {
         ),
       ),
       body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  "Submit", 
-                  style: TextStyle(
-                    fontSize: 20, 
-                    color: Colors.green
-                  ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                "Submit",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.green
                 ),
               ),
-              Text("${trip.title}"),
-              Text("${DateFormat('dd/MM/yyyy').format(trip.startDate).toString()} - ${DateFormat('dd/MM/yyyy').format(trip.endDate).toString()}"),
-              Text("\$${trip.budget.toStringAsFixed(2)}"),
-              Expanded(
-                child: GridView.count(
+            ),
+            Text("${trip.title}"),
+            Text("${DateFormat('dd/MM/yyyy').format(trip.startDate).toString()} - ${DateFormat('dd/MM/yyyy').format(trip.endDate).toString()}"),
+            Text("\$${trip.budget.toStringAsFixed(2)}"),
+            Expanded(
+              child: GridView.count(
                 crossAxisCount: 3,
                 scrollDirection: Axis.vertical,
                 primary: false,
@@ -59,7 +59,7 @@ class NewTripSummaryView extends StatelessWidget {
                     onPressed: () async {
                       trip.travelType = tripKeys[index];
                       final uid = await Provider.of(context).auth.getCurrentUID();
-                      await db.collection("userData").document(uid).collection("trips").add(trip.toJson());
+                      await db.collection("userData").doc(uid).collection("trips").add(trip.toJson());
                       newTripAd.show(
                         anchorType: AnchorType.bottom,
                         anchorOffset: 0.0,

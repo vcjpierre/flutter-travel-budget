@@ -15,7 +15,7 @@ class EditNotesView extends StatefulWidget {
 class _EditNotesViewState extends State<EditNotesView> {
   TextEditingController _notesController = new TextEditingController();
 
-  final db = Firestore.instance;
+  final db = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -103,10 +103,10 @@ class _EditNotesViewState extends State<EditNotesView> {
           widget.trip.notes = _notesController.text;
           final uid = await Provider.of(context).auth.getCurrentUID();
           await db.collection("userData")
-            .document(uid)
+           .doc(uid)
             .collection("trips")
-            .document(widget.trip.documentId)
-            .updateData({'notes': _notesController.text});
+           .doc(widget.trip.documentId)
+            .update({'notes': _notesController.text});
           Navigator.of(context).pop();
         },
       ),

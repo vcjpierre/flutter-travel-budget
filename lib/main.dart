@@ -8,10 +8,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter_travel_budget/services/admob_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_travel_budget/services/custom_colors.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   FirebaseAdMob.instance.initialize(appId: AdMobService().getAdMobAppId());
   runApp(MyApp());
 }
@@ -20,6 +22,7 @@ class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
+
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   var colors = CustomColors(WidgetsBinding.instance.window.platformBrightness);
   @override
@@ -45,15 +48,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Provider(
       auth: AuthService(),
-      db: Firestore.instance,
+      db: FirebaseFirestore.instance,
       colors: colors,
       child: MaterialApp(
-        title: "Travel Budget",
+        title: "Travel Budget App",
         theme: ThemeData(
           brightness: Brightness.light,
           primarySwatch: Colors.blue,
           textTheme: TextTheme(
-            bodyText1: GoogleFonts.bitter(
+            bodyText2: GoogleFonts.bitter(
               fontSize: 14.0
             ),
           ),
@@ -62,8 +65,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           brightness: Brightness.dark,
           primarySwatch: Colors.blue,
           textTheme: TextTheme(
-            bodyText1: GoogleFonts.bitter(fontSize: 14.0)
-          ),
+           bodyText2: GoogleFonts.bitter(fontSize: 14.0)
+          )
         ),
         home: HomeController(),
         debugShowCheckedModeBanner: false,
@@ -90,7 +93,7 @@ class HomeController extends StatelessWidget {
           final bool signedIn = snapshot.hasData;
           return signedIn ? Home() : FirstView();
         }
-        return CircularProgressIndicator();
+        return Container();
       },
     );
   }
