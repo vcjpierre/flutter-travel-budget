@@ -40,6 +40,12 @@ dependencies:
   firebase_admob: ^0.10.0-dev.1
   flare_flutter: ^2.0.3
   international_phone_input: ^1.0.4
+  flutter_launcher_icons: ^0.8.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
 
 dev_dependencies:
   flutter_test:
