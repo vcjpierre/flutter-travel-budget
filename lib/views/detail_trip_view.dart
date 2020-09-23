@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_travel_budget/widgets/money_text_field.dart';
 import 'package:flutter_travel_budget/widgets/calculator_widget.dart';
+import 'package:flutter_travel_budget/services/admob_service.dart';
 
 class DetailTripView extends StatefulWidget {
   final Trip trip;
@@ -23,6 +24,7 @@ class _DetailTripViewState extends State<DetailTripView> {
 
   void initState() {
     super.initState();
+    AdMobService.hideHomeBannerAd();
     _budgetController.text = widget.trip.budget.toStringAsFixed(0);
     _budget = widget.trip.budget.floor();
   }

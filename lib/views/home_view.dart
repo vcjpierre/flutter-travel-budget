@@ -8,7 +8,6 @@ import 'package:flutter_travel_budget/widgets/calculator_widget.dart';
 import 'package:flutter_travel_budget/services/admob_service.dart';
 import 'package:flutter_travel_budget/views/new_trips/location_view.dart';
 import 'package:flare_flutter/flare_actor.dart';
-// import 'package:firebase_admob/firebase_admob.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -27,8 +26,8 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {    
+    AdMobService.showHomeBannerAd();
     super.initState();
-    // Admob.initialize(ams.getAdMobAppId());
   }
 
   @override
@@ -87,7 +86,7 @@ class _HomeViewState extends State<HomeView> {
               return new ListView.builder(
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (BuildContext context, int index) =>
-                  buildTripCard(context, snapshot.data.documents[index])
+                  buildTripCard(context, snapshot.data.documents[index], true)
               );
             }
           ),
