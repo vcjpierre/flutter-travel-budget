@@ -22,6 +22,15 @@ class AuthService {
     return _firebaseAuth.currentUser;
   }
 
+  // Get user profile image
+  getProfileImage() {
+    if(_firebaseAuth.currentUser.photoURL != null) {
+      return Image.network(_firebaseAuth.currentUser.photoURL, height: 100, width: 100);
+    } else {
+      return Icon(Icons.account_circle, size: 100);
+    }
+  }
+
   // Email & Password Sign Up
   Future<String> createUserWithEmailAndPassword(
       String email, String password, String name) async {

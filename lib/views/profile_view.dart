@@ -42,11 +42,8 @@ class _ProfileViewState extends State<ProfileView> {
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            "Name: ${authData.displayName ?? 'Anonymous'}",
-            style: TextStyle(fontSize: 20),
-          ),
+          padding: const EdgeInsets.only(top: 10.0),
+          child: Provider.of(context).auth.getProfileImage(),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
