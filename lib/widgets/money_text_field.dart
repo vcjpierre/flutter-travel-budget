@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,7 +6,7 @@ class MoneyTextField extends StatelessWidget {
   final String helperText;
 
   const MoneyTextField({Key key, @required this.controller, this.helperText})
-    : super(key: key);
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class MoneyTextField extends StatelessWidget {
         ),
         keyboardType: TextInputType.numberWithOptions(decimal: false),
         inputFormatters: [
-          WhitelistingTextInputFormatter.digitsOnly,
+          FilteringTextInputFormatter.digitsOnly,
         ],
         autofocus: false,
       ),

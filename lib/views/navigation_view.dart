@@ -33,9 +33,7 @@ class _HomeState extends State<Home> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => NewTripLocationView(
-                    trip: newTrip
-                  ),
+                  builder: (context) => NewTripLocationView(trip: newTrip),
                 ),
               );
             },
@@ -44,23 +42,22 @@ class _HomeState extends State<Home> {
       ),
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped,
-        currentIndex: _currentIndex,
-        items: [
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.home),
-            title: new Text("Home"),
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.history),
-            title: new Text("Past Trips"),
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.account_circle),
-            title: new Text("Profile"),
-          ),
-        ]
-      ),
+          onTap: onTabTapped,
+          currentIndex: _currentIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.home),
+              label: ("Home"),
+            ),
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.history),
+              label: ("Past Trips"),
+            ),
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.account_circle),
+              label: ("Profile"),
+            ),
+          ]),
     );
   }
 

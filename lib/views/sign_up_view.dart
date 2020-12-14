@@ -1,4 +1,5 @@
 import 'package:apple_sign_in/apple_sign_in.dart';
+import 'package:apple_sign_in/apple_sign_in_button.dart' as AppleSignInButton;
 import 'package:flutter/material.dart';
 import 'package:flutter_travel_budget/services/auth_service.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -453,12 +454,12 @@ class _SignUpViewState extends State<SignUpView> {
 
   Widget buildAppleSignIn(_auth) {
     if (authFormType != AuthFormType.convert && _showAppleSignIn == true) {
-      return AppleSignInButton(
+      return AppleSignInButton.AppleSignInButton(
         onPressed: () async {
           await _auth.signInWithApple();
           Navigator.of(context).pushReplacementNamed('/home');
         },
-        style: ButtonStyle.black,
+        style: AppleSignInButton.ButtonStyle.black,
       );
     } else {
       return Container();
