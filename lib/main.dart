@@ -10,11 +10,13 @@ import 'package:flutter_travel_budget/services/admob_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_travel_budget/services/custom_colors.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseAdMob.instance.initialize(appId: AdMobService().getAdMobAppId());
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runApp(MyApp());
 }
 
@@ -56,26 +58,26 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           brightness: Brightness.light,
           primarySwatch: Colors.blue,
           textTheme: TextTheme(
-            bodyText2: GoogleFonts.bitter(
-              fontSize: 14.0
-            ),
+            bodyText2: GoogleFonts.bitter(fontSize: 14.0),
           ),
         ),
         darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          primarySwatch: Colors.blue,
-          textTheme: TextTheme(
-           bodyText2: GoogleFonts.bitter(fontSize: 14.0)
-          )
-        ),
+            brightness: Brightness.dark,
+            primarySwatch: Colors.blue,
+            textTheme:
+                TextTheme(bodyText2: GoogleFonts.bitter(fontSize: 14.0))),
         home: HomeController(),
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           '/home': (BuildContext context) => HomeController(),
-          '/signUp': (BuildContext context) => SignUpView(authFormType: AuthFormType.signUp),
-          '/signIn': (BuildContext context) => SignUpView(authFormType: AuthFormType.signIn),
-          '/anonymousSignIn': (BuildContext context) => SignUpView(authFormType: AuthFormType.anonymous),
-          '/convertUser': (BuildContext context) => SignUpView(authFormType: AuthFormType.convert),
+          '/signUp': (BuildContext context) =>
+              SignUpView(authFormType: AuthFormType.signUp),
+          '/signIn': (BuildContext context) =>
+              SignUpView(authFormType: AuthFormType.signIn),
+          '/anonymousSignIn': (BuildContext context) =>
+              SignUpView(authFormType: AuthFormType.anonymous),
+          '/convertUser': (BuildContext context) =>
+              SignUpView(authFormType: AuthFormType.convert),
         },
       ),
     );
