@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_travel_budget/views/home_view.dart';
-import 'package:flutter_travel_budget/views/new_trips/location_view.dart';
-import 'package:flutter_travel_budget/views/past_trips_view.dart';
+import 'deposit_view.dart';
 import 'profile_view.dart';
 import 'package:flutter_travel_budget/models/Trip.dart';
 
@@ -16,7 +15,7 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     HomeView(),
-    PastTripsView(),
+    DepositView(),
     ProfileView(),
   ];
 
@@ -24,38 +23,32 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final newTrip = new Trip(null, null, null, null, null, null);
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Travel Budget App"),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => NewTripLocationView(trip: newTrip),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
       body: _children[_currentIndex],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          onTabTapped(1);
+        },
+        tooltip: "Add Savings",
+        child: Icon(Icons.attach_money, color: Colors.indigo),
+        elevation: 4.0,
+        backgroundColor: Colors.white,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
           onTap: onTabTapped,
           currentIndex: _currentIndex,
           items: [
             BottomNavigationBarItem(
               icon: new Icon(Icons.home),
-              label: ("Home"),
+              label: "Home",
             ),
             BottomNavigationBarItem(
-              icon: new Icon(Icons.history),
-              label: ("Past Trips"),
+              icon: new Icon(Icons.attach_money),
+              label: "Save",
             ),
             BottomNavigationBarItem(
               icon: new Icon(Icons.account_circle),
-              label: ("Profile"),
+              label: "Profile",
             ),
           ]),
     );
