@@ -93,7 +93,7 @@ class HomeController extends StatelessWidget {
       builder: (context, AsyncSnapshot<String> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           final bool signedIn = snapshot.hasData;
-          return signedIn ? Home() : FirstView();
+          return signedIn ? NavigationView() : FirstView();
         }
         return Container();
       },
