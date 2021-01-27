@@ -1,7 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_travel_budget/services/firebase_service.dart';
 import 'package:flutter_travel_budget/views/home_view.dart';
-import 'package:flutter_travel_budget/widgets/provider_widget.dart';
 import 'deposit_view.dart';
 import 'profile_view.dart';
 import 'package:flutter_travel_budget/models/Trip.dart';
@@ -21,7 +20,7 @@ class _NavigationViewState extends State<NavigationView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _nextTrip = _getNextTrip();
+    _nextTrip = FirebaseService.getNextTrip(context);
   }
 
   @override
@@ -30,7 +29,7 @@ class _NavigationViewState extends State<NavigationView> {
       future: _nextTrip,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          if(snapshot.hasData) {
+          if (snapshot.hasData) {
             _trip = snapshot.data;
             return _buildView();
           } else {
@@ -53,7 +52,7 @@ class _NavigationViewState extends State<NavigationView> {
     );
   }
 
-  _buildView() {
+  Widget _buildView() {
     final List<Widget> _children = [
       HomeView(),
       DepositView(trip: _trip),
@@ -73,36 +72,24 @@ class _NavigationViewState extends State<NavigationView> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(
-          onTap: onTabTapped,
-          currentIndex: _currentIndex,
-          items: [
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.home),
-              label: ("Home"),
-            ),
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.attach_money),
-              label: ("Save"),
-            ),
-            BottomNavigationBarItem(
-              icon: new Icon(Icons.account_circle),
-              label: ("Profile"),
-            ),
-          ]
+        onTap: onTabTapped,
+        currentIndex: _currentIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.home),
+            label: ("Home"),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.attach_money),
+            label: ("Save"),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.account_circle),
+            label: ("Profile"),
+          ),
+        ]
       ),
     );
-  }
-
-  _getNextTrip() async {
-    final uid = Provider.of(context).auth.getCurrentUID();
-    var snapshot = await FirebaseFirestore.instance
-        .collection('userData')
-        .doc(uid)
-        .collection('trips')
-        .orderBy('startDate')
-        .limit(1)
-        .get();
-    return Trip.fromSnapshot(snapshot.docs.first);
   }
 
   void onTabTapped(int index) {

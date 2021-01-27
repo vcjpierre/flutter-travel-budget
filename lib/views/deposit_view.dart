@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_travel_budget/models/Trip.dart';
+import 'package:flutter_travel_budget/services/firebase_service.dart';
 import 'package:flutter_travel_budget/views/navigation_view.dart';
-import 'package:flutter_travel_budget/widgets/provider_widget.dart';
 import 'package:flutter_travel_budget/widgets/rounded_button.dart';
 
 class DepositView extends StatefulWidget {
@@ -33,7 +33,10 @@ class _DepositViewState extends State<DepositView> {
               fit: BoxFit.fitWidth,
               child: Text(
                 "\$$_amount",
-                style: TextStyle(fontSize: 100, fontWeight: FontWeight.bold, color: Colors.white),
+                style: TextStyle(
+                    fontSize: 100,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
             ),
             Padding(
@@ -115,15 +118,11 @@ class _DepositViewState extends State<DepositView> {
         padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
         child: RoundedButton(
           color: Colors.indigoAccent,
-          child:
-              Text("${type[0].toUpperCase()}${type.substring(1)}", style: TextStyle(color: Colors.white, fontSize: 20)),
+          child: Text("${type[0].toUpperCase()}${type.substring(1)}",
+              style: TextStyle(color: Colors.white, fontSize: 20)),
           onPressed: () async {
-            await Provider.of(context).db
-                  .collection('userData')
-                  .doc(Provider.of(context).auth.getCurrentUID())
-                  .collection('trips')
-                  .doc(widget.trip.documentId)
-                  .update(widget.trip.ledgerItem(_amount, type));
+            FirebaseService.addToLedger(context, widget.trip.documentId,
+                widget.trip.ledgerItem(_amount, type));
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
