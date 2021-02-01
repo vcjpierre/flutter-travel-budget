@@ -18,6 +18,7 @@ class DepositView extends StatefulWidget {
 
 class _DepositViewState extends State<DepositView> {
   String _amount = "0";
+  String _error;
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +34,12 @@ class _DepositViewState extends State<DepositView> {
               fit: BoxFit.fitWidth,
               child: Text(
                 "\$$_amount",
-                style: TextStyle(
-                    fontSize: 100,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                style: TextStyle(fontSize: 100, fontWeight: FontWeight.bold, color: Colors.white),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 15.0),
-              child: Text("", style: TextStyle(color: Colors.white)),
+              child: Text("${_error ?? ''}", style: TextStyle(color: Colors.white)),
             ),
             Container(
               child: Padding(
@@ -118,18 +116,27 @@ class _DepositViewState extends State<DepositView> {
         padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
         child: RoundedButton(
           color: Colors.indigoAccent,
-          child: Text("${type[0].toUpperCase()}${type.substring(1)}",
-              style: TextStyle(color: Colors.white, fontSize: 20)),
+          child:
+              Text("${type[0].toUpperCase()}${type.substring(1)}", style: TextStyle(color: Colors.white, fontSize: 20)),
           onPressed: () async {
-            FirebaseService.addToLedger(context, widget.trip.documentId,
-                widget.trip.ledgerItem(_amount, type));
-            Navigator.pushReplacement(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => NavigationView(),
-                transitionDuration: Duration(seconds: 0),
-              ),
-            );
+            if (_amount == "0") {
+              setState(() {
+                _error = "Enter an amount";
+              });
+            } else if (type == "spent" && double.parse(_amount) > widget.trip.saved) {
+              setState(() {
+                _error = "Yove've only saved \$${widget.trip.saved.floor()}";
+              });
+            } else {
+              FirebaseService.addToLedger(context, widget.trip.documentId, widget.trip.ledgerItem(_amount, type));
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => NavigationView(),
+                  transitionDuration: Duration(seconds: 0),
+                ),
+              );
+            }
           },
         ),
       ),
