@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_travel_budget/models/Trip.dart';
 
-class CurrentDailyBudget extends StatelessWidget {
-  CurrentDailyBudget(this.trip);
+class TravelType extends StatelessWidget {
+  TravelType(this.trip);
   final Trip trip;
+
+  Widget getTypeIcon() {
+    if (trip.types().containsKey(trip.travelType)) {
+      return trip.types(color: Colors.white)[trip.travelType];
+    } else {
+      return Icon(Icons.directions, size: 40, color: Colors.white);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +20,7 @@ class CurrentDailyBudget extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
           gradient: LinearGradient(
-            colors: [Colors.blueAccent, Colors.blue],
+            colors: [Colors.lightBlue, Colors.blueAccent],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -24,14 +32,18 @@ class CurrentDailyBudget extends StatelessWidget {
             children: [
               FittedBox(
                 fit: BoxFit.fitWidth,
-                child: Text("\$${trip.getCurrentDailyBudget()}",
-                    style: TextStyle(fontSize: 60, color: Colors.white)),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 6.0),
+                  child: Text(
+                    "transport",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
-              FittedBox(
-                fit: BoxFit.fitWidth,
-                child: Text("current daily budget",
-                    style: TextStyle(color: Colors.white)),
+              Expanded(
+                child: getTypeIcon(),
               ),
+              Text(trip.travelType, style: TextStyle(color: Colors.white)),
             ],
           ),
         ),
