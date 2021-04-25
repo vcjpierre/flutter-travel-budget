@@ -72,7 +72,7 @@ class _DepositViewState extends State<DepositView> {
   }
 
   Widget _numberBtn(String number) {
-    return FlatButton(
+    return TextButton(
       child: Text(
         "$number",
         style: TextStyle(fontSize: 40, color: Colors.white),
@@ -93,7 +93,7 @@ class _DepositViewState extends State<DepositView> {
   }
 
   Widget _deleteBtn() {
-    return FlatButton(
+    return TextButton(
       child: Text(
         "<",
         style: TextStyle(fontSize: 40, color: Colors.white),

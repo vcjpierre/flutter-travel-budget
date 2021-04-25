@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'package:firebase_admob/firebase_admob.dart';
-import 'package:flutter/material.dart';
 
 class AdMobService {
 
-  String getAdMobAppId() {
+  /*String getAdMobAppId() {
     if (Platform.isIOS) {
       return 'YOUR_ADMOB_iOS_ID';
     } else if (Platform.isAndroid) {
@@ -29,9 +27,9 @@ class AdMobService {
         return "YOUR_ADMOB_ANDROID_ID";
       }
       return null;
-  }
+  }*/
 
-  InterstitialAd getNewTripInterstitial() {
+  /*InterstitialAd getNewTripInterstitial() {
     return InterstitialAd(
       adUnitId: getInterstitialAdId(),
       listener: (MobileAdEvent event) {
@@ -59,5 +57,5 @@ class AdMobService {
   static void hideHomeBannerAd() async {
     await _homeBannerAd.dispose();
     _homeBannerAd = null;
-  }
+  }*/
 }
