@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_travel_budget/widgets/provider_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_travel_budget/services/admob_service.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 
 class NewTripSummaryView extends StatelessWidget {
   final db = FirebaseFirestore.instance;
@@ -15,8 +14,6 @@ class NewTripSummaryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    InterstitialAd newTripAd = ams.getNewTripInterstitial();
-    newTripAd.load();
     final tripTypes = trip.types();
     var tripKeys = tripTypes.keys.toList();
     return Scaffold(
@@ -48,7 +45,7 @@ class NewTripSummaryView extends StatelessWidget {
                 scrollDirection: Axis.vertical,
                 primary: false,
                 children: List.generate(tripTypes.length, (index) {
-                  return FlatButton(
+                  return TextButton(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -58,13 +55,8 @@ class NewTripSummaryView extends StatelessWidget {
                     ),
                     onPressed: () async {
                       trip.travelType = tripKeys[index];
-                      final uid = await Provider.of(context).auth.getCurrentUID();
+                      final uid = Provider.of(context).auth.getCurrentUID();
                       await db.collection("userData").doc(uid).collection("trips").add(trip.toJson());
-                      newTripAd.show(
-                        anchorType: AnchorType.bottom,
-                        anchorOffset: 0.0,
-                        horizontalCenterOffset: 0.0,
-                      );
                       Navigator.of(context).popUntil((route) => route.isFirst);
                     },
                   );
